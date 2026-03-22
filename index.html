@@ -9,7 +9,7 @@
         /* עיצוב משופר להשוואת מודלים */
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-            max-width: 1200px; /* הגדלתי את הרוחב כדי ש-3 נגנים ייכנסו בשורה */
+            max-width: 1200px; 
             margin: 0 auto; 
             padding: 40px; 
             line-height: 1.6; 
@@ -22,78 +22,83 @@
         .authors { font-size: 1.2em; color: #555; margin-bottom: 20px; }
         
         table { width: 100%; border-collapse: collapse; margin-top: 30px; table-layout: fixed; }
-        th, td { border: 1px solid #eee; padding: 12px; text-align: center; overflow: hidden; }
+        th, td { border: 1px solid #eee; padding: 12px; text-align: center; overflow: hidden; vertical-align: top; }
         
-        /* כותרות הטבלה */
         th { background-color: #f9f9f9; font-weight: 600; }
         
-        /* עמודת הטקסט - יישור לימין ורוחב גדול יותר */
         .transcript-cell { text-align: right; width: 25%; font-size: 0.9em; }
-        
-        /* עיצוב הנגן - שיתאים לעמודה */
-        audio { width: 100%; height: 35px; }
-        
-        .model-label { 
+        .transcript-text { font-style: italic; color: #444; }
+
+        /* עיצוב הנגנים הכפולים */
+        .audio-container { margin-bottom: 10px; text-align: center; }
+        .audio-label { 
             display: block; 
             font-size: 0.75em; 
             color: #888; 
-            margin-top: 5px; 
+            margin-bottom: 2px; 
             font-weight: normal; 
         }
-        
-        .transcript-text { font-style: italic; color: #444; }
+        audio { width: 100%; height: 35px; }
+
+        /* עיצוב הכפתורים המקורי שלך */
+        .links-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #363636;
+            color: white !important;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover { background-color: #000; }
+        .btn i { font-size: 1.2em; }
+        .hf-logo { width: 18px; height: 18px; vertical-align: middle; }
+
+        /* עיצוב נגן המקור (Ground Truth) */
+        .gt-container {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #f0f4f8; /* כחלחל עדין שמבדיל אותו מהשאר */
+            border-radius: 8px;
+        }
+        .gt-label {
+            display: block;
+            font-size: 0.75em;
+            color: #456;
+            margin-bottom: 5px;
+            font-weight: 700;
+            text-align: center;
+        }
+        .gt-container audio {
+            height: 30px; /* נגן מעט יותר קטן למקור */
+        }
     </style>
 </head>
 <body>
 
     <div class="header-section">
         <h1>יצירת קול סינתטי בעברית</h1>
-        <div>מבוסס על:  VoiceCraft: Zero-Shot Speech Editing and Text-to-Speech in the Wild</div>
+        <div>מבוסס על: VoiceCraft: Zero-Shot Speech Editing and Text-to-Speech in the Wild</div>
         <div class="authors">אדם סידי ודניאלה סוקייניק</div>
-        <style>
-            /* הוספת עיצוב לכפתורים */
-            .links-container {
-                display: flex;
-                justify-content: center;
-                gap: 15px;
-                margin-bottom: 30px;
-            }
-
-            .btn {
-                display: inline-flex;
-                align-items: center;
-                gap: 8px;
-                background-color: #363636;
-                color: white;
-                padding: 10px 20px;
-                border-radius: 25px;
-                text-decoration: none;
-                font-size: 14px;
-                transition: background-color 0.3s;
-            }
-
-            .btn:hover {
-                background-color: #000;
-            }
-
-            .btn i {
-                font-size: 1.2em;
-            }
-
-            .hf-logo {
-                width: 18px; /* גודל שמתאים לאייקונים של Font Awesome */
-                height: 18px;
-                vertical-align: middle;
-            }
-        </style>
 
         <div class="links-container">
-            <a href="https://github.com/daniellasolo7/VoiceCraft" class="btn">
+            <a href="https://github.com/daniellasolo7/VoiceCraft" class="btn" target="_blank">
                 <i class="fab fa-github"></i>
                 <span>Code</span>
             </a>
 
-            <a href="https://huggingface.co/Daniellasolo/VoiceCraft_Hebrew/tree/main" class="btn btn-hf" target="_blank">
+            <a href="https://huggingface.co/Daniellasolo/VoiceCraft_Hebrew/tree/main" class="btn" target="_blank">
                 <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" class="hf-logo" alt="HF Logo">
                 <span>Model</span>
             </a>
@@ -119,31 +124,84 @@
         <tbody>
             <tr>
                 <td class="transcript-cell">
-                    <span class="transcript-text">"כאן כותבים את הטקסט שנאמר בדוגמה הראשונה."</span>
+                    <span class="transcript-text">"שָׁלוֹם קוֹרְאִים לִי דָּנִיאֵלָה וַאֲנִי סְטוּדֶנְטִית לְתוֹאַר שֵׁנִי בְּהַנְדָּסַת חַשְׁמַל בַּקּוּרְס הַזֶּה אֲנִי בּוֹדֶקֶת אֵיךְ הַמּוֹדֵל הַזֶּה מְיַיצֵּר מִילִּים לְבַד"</span>
+                    <div class="gt-container">
+                        <span class="gt-label">הקלטת מקור (Ground Truth)</span>
+                        <audio controls src="GT/Daniella2Heb.wav"></audio>
+                    </div>
                 </td>
+                
                 <td>
-                    <audio controls src="audio/model1/sample1.wav"></audio>
+                    <div class="audio-container">
+                        <span class="audio-label">שילוב (מקור + תוצר)</span>
+                        <audio controls src="audio/model1/sample1.wav"></audio>
+                    </div>
+                    <div class="audio-container">
+                        <span class="audio-label">תוצר המודל בלבד</span>
+                        <audio controls src="audio/model1/sample1_gen.wav"></audio>
+                    </div>
                 </td>
+
                 <td>
-                    <audio controls src="audio/model2/sample1.wav"></audio>
+                    <div class="audio-container">
+                        <span class="audio-label">שילוב (מקור + תוצר)</span>
+                        <audio controls src="audio/model2/sample1.wav"></audio>
+                    </div>
+                    <div class="audio-container">
+                        <span class="audio-label">תוצר המודל בלבד</span>
+                        <audio controls src="audio/model2/sample1_gen.wav"></audio>
+                    </div>
                 </td>
+
                 <td>
-                    <audio controls src="audio/model3/sample1.wav"></audio>
+                    <div class="audio-container">
+                        <span class="audio-label">שילוב (מקור + תוצר)</span>
+                        <audio controls src="model3/Daniella_model3.wav"></audio>
+                    </div>
+                    <div class="audio-container">
+                        <span class="audio-label">תוצר המודל בלבד</span>
+                        <audio controls src="model3/Daniella_model3_gen.wav"></audio>
+                    </div>
                 </td>
             </tr>
 
             <tr>
                 <td class="transcript-cell">
-                    <span class="transcript-text">"כאן כותבים את הטקסט של הדוגמה השנייה."</span>
+                    <span class="transcript-text">"שָׁלוֹם קוֹרְאִים לִי אָדָם סִידִי, אֲנִי סְטוּדֵנְט לְתֹאַר שֵׁנִי בְּאוּנִיבֶרְסִיטַת תֵּל אָבִיב וַאֲנִי בּוֹדֵק אֵיךְ הַמּוֹדֵל מַשְׁלִים מִלִּים בְּעִבְרִית"</span>
+                    <div class="gt-container">
+                        <span class="gt-label">הקלטת מקור (Ground Truth)</span>
+                        <audio controls src="GT/Adam2Heb.wav"></audio>
+                    </div>
                 </td>
                 <td>
-                    <audio controls src="audio/model1/sample2.wav"></audio>
+                    <div class="audio-container">
+                        <span class="audio-label">שילוב</span>
+                        <audio controls src="audio/model1/sample2.wav"></audio>
+                    </div>
+                    <div class="audio-container">
+                        <span class="audio-label">תוצר בלבד</span>
+                        <audio controls src="audio/model1/sample2_gen.wav"></audio>
+                    </div>
                 </td>
                 <td>
-                    <audio controls src="audio/model2/sample2.wav"></audio>
+                    <div class="audio-container">
+                        <span class="audio-label">שילוב</span>
+                        <audio controls src="audio/model2/sample2.wav"></audio>
+                    </div>
+                    <div class="audio-container">
+                        <span class="audio-label">תוצר בלבד</span>
+                        <audio controls src="audio/model2/sample2_gen.wav"></audio>
+                    </div>
                 </td>
                 <td>
-                    <audio controls src="audio/model3/sample2.wav"></audio>
+                    <div class="audio-container">
+                        <span class="audio-label">שילוב</span>
+                        <audio controls src="model3/adam_model3.wav"></audio>
+                    </div>
+                    <div class="audio-container">
+                        <span class="audio-label">תוצר בלבד</span>
+                        <audio controls src="model3/adam_model3_gen.wav"></audio>
+                    </div>
                 </td>
             </tr>
         </tbody>
