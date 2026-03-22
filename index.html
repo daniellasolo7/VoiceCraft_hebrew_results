@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>דוגמאות TTS - VoiceCraft</title>
@@ -48,6 +49,60 @@
     <div class="header-section">
         <h1>יצירת קול סינתטי בעברית</h1>
         <div class="authors">אדם סידי ודניאלה סוקייניק</div>
+        <style>
+            /* הוספת עיצוב לכפתורים */
+            .links-container {
+                display: flex;
+                justify-content: center;
+                gap: 15px;
+                margin-bottom: 30px;
+            }
+
+            .btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                background-color: #363636;
+                color: white;
+                padding: 10px 20px;
+                border-radius: 25px;
+                text-decoration: none;
+                font-size: 14px;
+                transition: background-color 0.3s;
+            }
+
+            .btn:hover {
+                background-color: #000;
+            }
+
+            .btn i {
+                font-size: 1.2em;
+            }
+
+            .hf-logo {
+                width: 18px; /* גודל שמתאים לאייקונים של Font Awesome */
+                height: 18px;
+                vertical-align: middle;
+            }
+        </style>
+
+        <div class="links-container">
+            <a href="https://github.com/daniellasolo7/VoiceCraft" class="btn">
+                <i class="fab fa-github"></i>
+                <span>Code</span>
+            </a>
+
+            <a href="https://huggingface.co/Daniellasolo/VoiceCraft_Hebrew/tree/main" class="btn btn-hf" target="_blank">
+                <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" class="hf-logo" alt="HF Logo">
+                <span>Model</span>
+            </a>
+            
+            <a href="voicecraft (16).pdf" class="btn" target="_blank">
+                <i class="fas fa-file-pdf"></i>
+                <span>Report</span>
+            </a>
+        </div>
+        
         <p>בדף זה ניתן לשמוע השוואה בין דוגמאות של סינתזת דיבור המבוססת על ארכיטקטורת VoiceCraft ומודלים נוספים.</p>
     </div>
 
